@@ -1,0 +1,104 @@
+﻿Version=6.5
+NumberOfModules=1
+Module1=Starter
+Build1=Default,b4a.Cadran,Full
+Build2=Final,b4a.Cadranfinal,Full
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.b4x.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="19"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
+IconFile=
+NumberOfFiles=3
+File1=accueil.bal
+File2=cadran_f.bal
+File3=layout1.bal
+NumberOfLibraries=2
+Library1=core
+Library2=gameview
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: Cadran Final
+	#VersionCode: 1
+	#VersionName: 
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: portrait
+	#CanInstallToExternalStorage: False
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: False
+	#IncludeTitle: False
+#End Region
+
+Sub Process_Globals
+End Sub
+
+Sub Globals
+	Dim Cadran As ImageView
+	Dim Droite As Button
+	Dim Gauche As Button
+	Dim Panel1 As Panel
+	Dim aiguille As BitmapData
+	Dim centerX As Int
+	Dim centerY As Int
+	Dim gv As GameView
+	Private NSEW As Button
+	Private Titre As Label
+	Private Cadran_BP As Button
+	Private Droite_f As Button
+	Private Gauche_f As Button
+	Private Label1 As Label
+	Private Menu As Button
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	Activity.LoadLayout("accueil")
+End Sub
+
+Sub Gauche_Click
+	aiguille.Rotate=(aiguille.Rotate -2)Mod 360
+	gv.Invalidate
+End Sub
+
+Sub Droite_Click
+	aiguille.Rotate=(aiguille.Rotate +2)Mod 360
+	gv.Invalidate
+End Sub
+
+Sub NSEW_Click
+	Activity.RemoveAllViews
+	Activity.LoadLayout("Layout1")
+	Cadran.SendToBack
+	aiguille.Bitmap = LoadBitmap(File.DirAssets,"aiguille.png")
+	centerX=Cadran.Left+(Cadran.Width/2)
+	centerY=Cadran.Top+(Cadran.Height/2)
+	aiguille.DestRect.Initialize(centerX-5,centerY-500, centerX+5, centerY+500)
+	gv.Initialize("gv")
+	gv.BitmapsData.Add(aiguille)
+	Activity.AddView(gv, 0, 0, 100%x, 100%y)
+End Sub
+
+Sub Cadran_BP_Click
+	Activity.RemoveAllViews
+	Activity.LoadLayout("cadran_f")
+	Cadran.SendToBack
+	aiguille.Bitmap = LoadBitmap(File.DirAssets,"aiguille.png")
+	centerX=Cadran.Left+(Cadran.Width/2)
+	centerY=Cadran.Top+(Cadran.Height/1.3)
+	aiguille.DestRect.Initialize(centerX-10,centerY-700, centerX+10, centerY+700)
+	gv.Initialize("gv")
+	gv.BitmapsData.Add(aiguille)
+	Activity.AddView(gv, 0, 0, 100%x, 100%y)
+End Sub
+
+Sub Menu_Click
+	Activity.RemoveAllViews
+	Activity.LoadLayout("accueil")
+End Sub
+
+Sub Gauche_f_Click
+	aiguille.Rotate=(aiguille.Rotate -2)Mod 45
+	gv.Invalidate
+End Sub
+
+Sub Droite_f_Click
+	aiguille.Rotate=(aiguille.Rotate +2)Mod 45
+	gv.Invalidate
+End Sub
